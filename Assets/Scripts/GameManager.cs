@@ -7,30 +7,8 @@ public class GameManager : MonoBehaviour
 {
     bool ReadyForInput;
     Player player;
-    int mentalState;
     public List<VictorySlot> victories;
     bool next;
-
-    public int maxMentalState = 10;
-    public int MentalState
-    {
-        get => mentalState;
-        set
-        {
-            if (value >= maxMentalState)
-            {
-                value = maxMentalState;
-                player.Reload();
-            }
-
-            if (value < 0)
-            {
-                value = 0;
-            }
-
-            mentalState = value;
-        }
-    }
 
     private void Awake()
     {

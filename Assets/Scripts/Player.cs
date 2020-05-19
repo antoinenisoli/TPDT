@@ -1,14 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     bool addition;
-    GameManager gmScript;
     float xInput;
     float yInput;
+
+    [Header("Post Process")]
+    public PostProcessVolume volume;
+    public float dec;
+    ChromaticAberration _ChromaticAberration;
+    Grain _Grain;
+
+    [Header("Sanity")]    
+    public float maxMentalState = 10;
+    public float MentalState
+    {
+        get => mentalState;
+        set
+        {
+            if (value >= maxMentalState)
+            {
+                value = maxMentalState;
+                Reload();
+            }
+
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            mentalState = value;
+        }
+    }
+    [SerializeField] float mentalState;
 
     [Header("Movements")]
     public float speed = 8;
@@ -33,27 +62,46 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("DT") && !addition)
         {
-            addition = true;
-            hitFX.Play();
-
-            if (!isHit)
-            {
-                MeshRenderer[] renderers = playerMesh.GetComponentsInChildren<MeshRenderer>();
-
-                foreach (MeshRenderer render in renderers)
-                {
-                    StartCoroutine(Hit(render));
-                }
-            }
-            
-            gmScript.MentalState++;
+            addition = true;            
+            ChangeSanity(1, false, Color.black);
         }
+        else if (other.CompareTag("Light") && !addition)
+        {
+            addition = true;            
+            ChangeSanity(-1, true, Color.yellow);
+        }
+    }
+
+    public void ChangeSanity(float amount, bool loose, Color hitColor)
+    {
+        if (!loose)
+        {
+            EventsManager.Instance.OnAddSanity();
+            hitFX.Play();
+        }
+        else
+        {
+            EventsManager.Instance.OnRemoveSanity();
+        }
+
+        if (!isHit)
+        {
+            MeshRenderer[] renderers = playerMesh.GetComponentsInChildren<MeshRenderer>();
+
+            foreach (MeshRenderer render in renderers)
+            {
+                StartCoroutine(Hit(render, hitColor));
+            }
+        }
+
+        MentalState += amount;
     }
 
     private void Start()
     {
         MenuPause.SetActive(false);
-        gmScript = FindObjectOfType<GameManager>();
+        volume.profile.TryGetSettings(out _ChromaticAberration);
+        volume.profile.TryGetSettings(out _Grain);
     }
 
     public bool Move(Vector3 direction)
@@ -84,7 +132,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator Hit(MeshRenderer renderer)
+    IEnumerator Hit(MeshRenderer renderer, Color hitColor)
     {
         baseColor = renderer.material.color;
         isHit = true;
@@ -225,10 +273,18 @@ public class Player : MonoBehaviour
         }
     }
 
+    void SanityEffect()
+    {
+        _ChromaticAberration.intensity.value = Mathf.Lerp(_ChromaticAberration.intensity.value, MentalState / 10, 3 * Time.deltaTime);
+        _Grain.intensity.value = Mathf.Lerp(_Grain.intensity.value, MentalState / 10, 3 * Time.deltaTime);
+    }
+
     private void Update()
     {
         MeshRotation();
         GetInputs();
+        SanityEffect();        
+
         addition = false;
     }
 }

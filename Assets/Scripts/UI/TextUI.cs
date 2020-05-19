@@ -8,17 +8,17 @@ public class TextUI : MonoBehaviour
 {
     Text UItext;
     public string txt = "Mental state : ";
-    GameManager gm;
+    public Player player;
 
     private void Awake()
     {
-        gm = FindObjectOfType<GameManager>();
+        player = FindObjectOfType<Player>();
         UItext = GetComponent<Text>();
     }
 
     void Update()
     {
-        string texte = (txt + gm.MentalState);
+        string texte = (txt + player.MentalState);
         UItext.text = texte;
     }
 }

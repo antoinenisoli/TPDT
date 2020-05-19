@@ -1,5 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5508274679593795733
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  shutterAngle:
+    overrideState: 1
+    value: 360
+  sampleCount:
+    overrideState: 0
+    value: 10
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19,6 +41,7 @@ MonoBehaviour:
   - {fileID: 6165528043179873358}
   - {fileID: 1878010562674575786}
   - {fileID: 8943498793468019492}
+  - {fileID: -5508274679593795733}
 --- !u!114 &1878010562674575786
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1385,7 +1408,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.164
+    value: 0.1
   size:
     overrideState: 0
     value: 1
@@ -1505,7 +1528,7 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.242
+    value: 0.1
   fastMode:
     overrideState: 0
     value: 0
