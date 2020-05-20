@@ -4802,6 +4802,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2d6dbcf25e67c4fb8e9550b96e7c68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxMentalState: 10
+  mentalState: 0
   speed: 8
   rotationSpeed: 10
   CellMove: 1

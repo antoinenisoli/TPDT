@@ -9,10 +9,7 @@ public class Player : MonoBehaviour
     bool addition;
     float xInput;
     float yInput;
-
-    [Header("Post Process")]
-    public PostProcessVolume volume;
-    public float dec;
+    PostProcessVolume volume;
     ChromaticAberration _ChromaticAberration;
     Grain _Grain;
 
@@ -70,6 +67,14 @@ public class Player : MonoBehaviour
             addition = true;            
             ChangeSanity(-1, true, Color.yellow);
         }
+    }    
+
+    private void Start()
+    {
+        MenuPause.SetActive(false);
+        volume = FindObjectOfType<PostProcessVolume>();
+        volume.profile.TryGetSettings(out _ChromaticAberration);
+        volume.profile.TryGetSettings(out _Grain);
     }
 
     public void ChangeSanity(float amount, bool loose, Color hitColor)
@@ -95,13 +100,6 @@ public class Player : MonoBehaviour
         }
 
         MentalState += amount;
-    }
-
-    private void Start()
-    {
-        MenuPause.SetActive(false);
-        volume.profile.TryGetSettings(out _ChromaticAberration);
-        volume.profile.TryGetSettings(out _Grain);
     }
 
     public bool Move(Vector3 direction)
@@ -275,8 +273,8 @@ public class Player : MonoBehaviour
 
     void SanityEffect()
     {
-        _ChromaticAberration.intensity.value = Mathf.Lerp(_ChromaticAberration.intensity.value, MentalState / 10, 3 * Time.deltaTime);
-        _Grain.intensity.value = Mathf.Lerp(_Grain.intensity.value, MentalState / 10, 3 * Time.deltaTime);
+        _ChromaticAberration.intensity.value = Mathf.Lerp(_ChromaticAberration.intensity.value, MentalState / maxMentalState, 3 * Time.deltaTime);
+        _Grain.intensity.value = Mathf.Lerp(_Grain.intensity.value, MentalState / maxMentalState, 3 * Time.deltaTime);
     }
 
     private void Update()

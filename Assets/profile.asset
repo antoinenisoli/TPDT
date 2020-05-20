@@ -134,7 +134,7 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   colorFilter:
-    overrideState: 1
+    overrideState: 0
     value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
     overrideState: 1
@@ -1479,7 +1479,7 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   mode:
-    overrideState: 0
+    overrideState: 1
     value: 0
   color:
     overrideState: 1
@@ -1500,8 +1500,8 @@ MonoBehaviour:
     overrideState: 1
     value: 0
   mask:
-    overrideState: 0
-    value: {fileID: 0}
+    overrideState: 1
+    value: {fileID: 2800000, guid: 839f75a4ac8f9e64c8c42711d9cae6f0, type: 3}
     defaultState: 1
   opacity:
     overrideState: 0
@@ -1528,7 +1528,7 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.1
+    value: 1
   fastMode:
     overrideState: 0
     value: 0

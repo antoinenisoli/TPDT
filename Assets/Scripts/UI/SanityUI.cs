@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SanityUI : MonoBehaviour
 {
-    public GameObject aiguille;
+    public Transform aiguille;
     Player player;
-    Vector3 rotation;
+    Vector3 newRotation;
 
     private void Awake()
     {
@@ -16,11 +16,16 @@ public class SanityUI : MonoBehaviour
     private void Start()
     {
         EventsManager.Instance.OnDamagePlayer += RotateClock;
+        newRotation = aiguille.eulerAngles;
     }
 
     private void RotateClock()
     {
-        rotation = new Vector3(0, 0, -360/player.maxMentalState);
-        aiguille.transform.Rotate(rotation);
+        newRotation += new Vector3(0, 0, 360 / player.maxMentalState - 1);
+    }
+
+    private void Update()
+    {
+        aiguille.localEulerAngles = Vector3.Lerp(aiguille.localEulerAngles, newRotation, Time.deltaTime);
     }
 }
