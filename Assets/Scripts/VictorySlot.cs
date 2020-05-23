@@ -34,7 +34,11 @@ public class VictorySlot : MonoBehaviour
     void Start()
     {
         gm = FindObjectOfType<GameManager>();
-        gm.victories.Add(this);
+        
+        if (gm != null)
+        {
+            gm.victories.Add(this);
+        }
     }
 
     void Lights()

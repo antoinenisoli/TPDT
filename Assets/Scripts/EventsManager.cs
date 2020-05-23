@@ -9,6 +9,7 @@ public class EventsManager : MonoBehaviour
     public static EventsManager Instance;
     public event Action OnDamagePlayer;
     public event Action OnHealPlayer;
+    public event Action OnWin;
 
     private void Awake()
     {
@@ -30,5 +31,10 @@ public class EventsManager : MonoBehaviour
     public void OnRemoveSanity()
     {
         OnHealPlayer?.Invoke();
+    }
+
+    public void OnGameWin()
+    {
+        OnWin?.Invoke();
     }
 }

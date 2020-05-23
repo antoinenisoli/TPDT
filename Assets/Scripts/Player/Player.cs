@@ -66,27 +66,33 @@ public class Player : MonoBehaviour
         {
             addition = true;            
             ChangeSanity(-1, true, Color.yellow);
-        }
+        }        
     }    
 
     private void Start()
     {
         MenuPause.SetActive(false);
-        volume = FindObjectOfType<PostProcessVolume>();
+        volume = Camera.main.GetComponent<PostProcessVolume>();
         volume.profile.TryGetSettings(out _ChromaticAberration);
         volume.profile.TryGetSettings(out _Grain);
     }
 
     public void ChangeSanity(float amount, bool loose, Color hitColor)
     {
-        if (!loose)
-        {
-            EventsManager.Instance.OnAddSanity();
-            hitFX.Play();
+        if (loose)
+        {            
+            for (int i = 0; i > amount; i--)
+            {
+                EventsManager.Instance.OnRemoveSanity();
+            }
         }
-        else
+        else 
         {
-            EventsManager.Instance.OnRemoveSanity();
+            for (int i = 0; i < amount; i++)
+            {
+                EventsManager.Instance.OnAddSanity();
+                hitFX.Play();
+            }
         }
 
         if (!isHit)

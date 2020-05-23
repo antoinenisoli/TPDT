@@ -15,21 +15,11 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
     }
 
-    IEnumerator NextLevel()
-    {
-        yield return new WaitForSeconds(1f);
-        print("next !");
-        if ((SceneManager.GetActiveScene().buildIndex + 1) <= 3)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);            
-        }
-    }
-
     public void FindVictories()
     {
         if (victories.Count == 0 && !next)
         {
-            StartCoroutine(NextLevel());
+            EventsManager.Instance.OnGameWin();
             next = true;
         }
     }
