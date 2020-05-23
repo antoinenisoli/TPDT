@@ -16,8 +16,7 @@ public class Pick : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            inventoryUI.AddItem(item);
-            Destroy(gameObject);
+            inventoryUI.AddItem(item, gameObject);
         }
     }
 }

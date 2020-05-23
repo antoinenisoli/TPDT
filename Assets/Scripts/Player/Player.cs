@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     bool addition;
     float xInput;
     float yInput;
-    PostProcessVolume volume;
+    [SerializeField] PostProcessVolume volume;
     ChromaticAberration _ChromaticAberration;
     Grain _Grain;
 
@@ -41,9 +41,16 @@ public class Player : MonoBehaviour
     public float rotationSpeed = 10;
     public float CellMove;
     public GameObject MenuPause;
+    public Transform raycastPos;
     bool paused;
     bool isHit;
     bool isMoving;
+
+    [Header("Detection")]
+    public LayerMask wallLayer;
+    public LayerMask darkLayer;
+    public GameObject LastWall;
+    public RaycastHit[] detectedThougts;
 
     [Header("Meshes")]
     public float colorTransitionSpeed = 10;
@@ -60,24 +67,24 @@ public class Player : MonoBehaviour
         if (other.CompareTag("DT") && !addition)
         {
             addition = true;            
-            ChangeSanity(1, false, Color.black);
+            ChangeSanity(1, false);
         }
         else if (other.CompareTag("Light") && !addition)
         {
             addition = true;            
-            ChangeSanity(-1, true, Color.yellow);
+            ChangeSanity(-1, true);
         }        
-    }    
-
-    private void Start()
-    {
-        MenuPause.SetActive(false);
-        volume = Camera.main.GetComponent<PostProcessVolume>();
-        volume.profile.TryGetSettings(out _ChromaticAberration);
-        volume.profile.TryGetSettings(out _Grain);
     }
 
-    public void ChangeSanity(float amount, bool loose, Color hitColor)
+    private void Awake()
+    {
+        volume = Camera.main.gameObject.GetComponent<PostProcessVolume>();
+        volume.profile.TryGetSettings(out _ChromaticAberration);
+        volume.profile.TryGetSettings(out _Grain);
+        MenuPause.SetActive(false);
+    }
+
+    public void ChangeSanity(float amount, bool loose)
     {
         if (loose)
         {            
@@ -101,7 +108,14 @@ public class Player : MonoBehaviour
 
             foreach (MeshRenderer render in renderers)
             {
-                StartCoroutine(Hit(render, hitColor));
+                if (loose)
+                {
+                    StartCoroutine(Hit(render, Color.green));
+                }
+                else
+                {
+                    StartCoroutine(Hit(render, Color.black));
+                }
             }
         }
 
@@ -242,22 +256,22 @@ public class Player : MonoBehaviour
     {
         if (xInput < 0)
         {
-            playerMesh.rotation = Quaternion.Euler(0, 90, 0);
+            playerMesh.rotation = Quaternion.Euler(0, 270, 0);
         }
 
         if (xInput > 0)
         {
-            playerMesh.rotation = Quaternion.Euler(0, -90, 0);
+            playerMesh.rotation = Quaternion.Euler(0, 90, 0);
         }
 
         if (yInput > 0)
         {
-            playerMesh.rotation = Quaternion.Euler(0, 180, 0);
+            playerMesh.rotation = Quaternion.Euler(0, 0, 0);
         }
 
         if (yInput < 0)
         {
-            playerMesh.rotation = Quaternion.Euler(0, 0, 0);
+            playerMesh.rotation = Quaternion.Euler(0, 180, 0);
         }
     }
 
@@ -283,12 +297,25 @@ public class Player : MonoBehaviour
         _Grain.intensity.value = Mathf.Lerp(_Grain.intensity.value, MentalState / maxMentalState, 3 * Time.deltaTime);
     }
 
+    void LineDetection()
+    {
+        RaycastHit hit;
+        bool detectWall = Physics.Raycast(raycastPos.position, playerMesh.forward, out hit, Mathf.Infinity, wallLayer);
+        if (detectWall)
+        {
+            LastWall = hit.collider.gameObject;
+            Debug.DrawLine(raycastPos.position, hit.point, Color.red);
+
+            detectedThougts = Physics.RaycastAll(raycastPos.position, playerMesh.forward, Vector3.Distance(transform.position, hit.point), darkLayer);
+        }
+    }
+
     private void Update()
     {
         MeshRotation();
         GetInputs();
-        SanityEffect();        
-
+        SanityEffect();
+        LineDetection();
         addition = false;
     }
 }

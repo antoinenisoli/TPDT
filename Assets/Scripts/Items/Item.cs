@@ -17,4 +17,9 @@ public class Item : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public virtual bool CanUse()
+    {
+        return true;
+    }
 }

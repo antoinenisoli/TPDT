@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item_Memory : Item
+public class Item_Madness : Item
 {
     public override void Effect()
     {
-        if (player.MentalState > 0)
+        if (CanUse())
         {
-            player.ChangeSanity(-2, true, Color.green);
+            player.ChangeSanity(1, false);
             base.Effect();
         }
     }

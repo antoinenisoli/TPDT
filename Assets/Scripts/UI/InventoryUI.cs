@@ -22,7 +22,13 @@ public class InventoryUI : MonoBehaviour
             index = value;
         }
     }
-    public Transform[] slots;
+    public SlotUI[] slots;
+    public List<Item> items;
+
+    private void Awake()
+    {
+        slots = GetComponentsInChildren<SlotUI>();       
+    }
 
     public void Naviguation()
     {
@@ -41,24 +47,25 @@ public class InventoryUI : MonoBehaviour
 
     void UseItem()
     {
-        SlotUI slotUI = slots[Index].GetComponent<SlotUI>();
-
-        if (Input.GetButtonDown("UseItem") && slotUI.containedItem != null)
+        if (Input.GetButtonDown("UseItem") && slots[Index].containedItem != null && slots[Index].containedItem.CanUse())
         {
-            slotUI.containedItem.Effect();
+            items.Remove(items[Index]);
+            slots[Index].containedItem.Effect();
+            slots[Index].isOccupied = false;
         }
     }
 
-    public void AddItem(GameObject newItem)
+    public void AddItem(GameObject newItem, GameObject picked)
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            SlotUI slotUI = slots[i].GetComponent<SlotUI>();
-
-            if (!slotUI.isOccupied)
+            if (!slots[i].isOccupied)
             {
-                GameObject newObject = Instantiate(newItem, slots[i].position, Quaternion.identity, slots[i]);
-                slotUI.containedItem = newObject.GetComponent<Item>();
+                GameObject newObject = Instantiate(newItem, slots[i].transform.position, Quaternion.identity, slots[i].transform);
+                slots[i].containedItem = newObject.GetComponent<Item>();
+                slots[i].isOccupied = true;
+                items.Add(slots[i].containedItem);
+                Destroy(picked);
                 break;
             }
         }

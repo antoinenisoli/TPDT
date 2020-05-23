@@ -57,7 +57,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c3b2611d599186046afc8ed55d4cd8a1, type: 2}
+  - {fileID: 2100000, guid: 1d826372d39db0c4eb24ddd0cf32374f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 2098608149157344248}
   - component: {fileID: 5766373413875530625}
   m_Layer: 0
-  m_Name: Memory
+  m_Name: PickMadness
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e84f0bf4fb941c45956da488787833e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 7079212891299565403, guid: f40aec2ae2da84645b50da685bcf888a, type: 3}
+  item: {fileID: 7079212891299565403, guid: e0e8f1881495a9149b011387e38d0e8f, type: 3}
 --- !u!1 &6445871377758523724
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +196,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c3b2611d599186046afc8ed55d4cd8a1, type: 2}
+  - {fileID: 2100000, guid: 1d826372d39db0c4eb24ddd0cf32374f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

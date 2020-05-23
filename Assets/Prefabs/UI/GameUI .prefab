@@ -1253,6 +1253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aiguille: {fileID: 7421717560518941781}
+  newRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &7421717561899158830
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,10 +1416,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 4471899994921662135}
   slots:
-  - {fileID: 428319688683703603}
-  - {fileID: 9047950897424232666}
-  - {fileID: 2465215538753169180}
-  - {fileID: 3222467371528024052}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  items:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &8288481329462871324
 GameObject:
   m_ObjectHideFlags: 0
